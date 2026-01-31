@@ -7,8 +7,5 @@ WORKDIR /app
 # Copy application source
 COPY . .
 
-# Expose app port
-EXPOSE 3002
-
 # Start the app
 CMD ["node", "server.js"]

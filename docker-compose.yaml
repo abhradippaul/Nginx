@@ -1,20 +1,35 @@
 version: "3.9"
 
 services:
-  node-backend1:
-    build: ./backend1
-    expose:
-      - "3001"
+  app1:
+    build: ./backend
+    ports:
+      - 3001:3001
     environment:
+      PORT: 3001
+      SERVER_NAME: "APP1"
       NODE_ENV: production
     networks:
       - nginx-network
 
-  node-backend2:
-    build: ./backend2
-    expose:
-      - "3002"
+  app2:
+    build: ./backend
+    ports:
+      - 3002:3002
     environment:
+      PORT: 3002
+      SERVER_NAME: "APP2"
+      NODE_ENV: production
+    networks:
+      - nginx-network
+
+  app3:
+    build: ./backend
+    ports:
+      - 3003:3003
+    environment:
+      PORT: 3003
+      SERVER_NAME: "APP3"
       NODE_ENV: production
     networks:
       - nginx-network
@@ -24,12 +39,17 @@ services:
     container_name: nginx
     ports:
       - "80:80"
+      - "443:443"
     depends_on:
-      - node-backend1
-      - node-backend2
+      - app1
+      - app2
+      - app3
     volumes:
+      # - ./certs:/etc/nginx/certs:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      # - ./ssl.conf:/etc/nginx/conf.d/default.conf
       # - ./reverse-proxy.conf:/etc/nginx/conf.d/default.conf
-      - ./loadbalancer.conf:/etc/nginx/conf.d/default.conf:ro
+      # - ./loadbalancer.conf:/etc/nginx/conf.d/default.conf
     networks:
       - nginx-network
 
