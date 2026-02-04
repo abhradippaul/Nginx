@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini Interactive App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Mini Interactive App 🚀</h1>
+      <button id="themeToggle">🌙 Dark Mode</button>
+    </header>
+
+    <!-- Counter -->
+    <section class="card">
+      <h2>Counter</h2>
+      <p id="count">0</p>
+      <div class="btn-group">
+        <button onclick="decrement()">-</button>
+        <button onclick="increment()">+</button>
+        <button onclick="reset()">Reset</button>
+      </div>
+    </section>
+
+    <!-- Live Text -->
+    <section class="card">
+      <h2>Live Text Preview</h2>
+      <input type="text" id="textInput" placeholder="Type something..." />
+      <p class="preview" id="previewText">Your text will appear here</p>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

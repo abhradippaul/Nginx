@@ -5,6 +5,18 @@ const SERVER_NAME = process.env.SERVER_NAME
 
 http
   .createServer((req, res) => {
-    res.end(`Hello from Node.js backend Server ${SERVER_NAME}!`);
+
+    if (req.url === "/api") {
+      res.end(
+        `Hello from Node.js ${SERVER_NAME} backend Server. Total running ${process.uptime()}. Timestamp ${new Date().toISOString()}`
+      );
+    } else if (req.url === "/api/health") {
+      res.end(
+        `${SERVER_NAME} server is healthy. Total running ${process.uptime()}. Timestamp ${new Date().toISOString()}`
+      );
+    } else {
+      res.end()
+    }
+
   })
   .listen(PORT, "0.0.0.0");

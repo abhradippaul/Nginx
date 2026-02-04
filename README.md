@@ -12,6 +12,7 @@ curl -I localhost
 ```
 
 ```bash
+# Request self signed certificate
 openssl req -x509 -nodes -days 365 \
   -newkey rsa:2048 \
   -keyout selfsigned.key \
@@ -21,4 +22,12 @@ openssl req -x509 -nodes -days 365 \
 ```bash
 # Build Docker Compose
 docker compose up --build -d
+```
+
+## Amazon Linux Certbot
+
+```bash
+# Install certbot
+sudo dnf install certbot
+sudo certbot certonly
 ```
