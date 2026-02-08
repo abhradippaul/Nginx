@@ -28,14 +28,8 @@ docker compose up --build -d
 
 ```bash
 # Install certbot
-# sudo apt install -y certbot python3-certbot-nginx
-# sudo certbot --nginx -d abhradippaul-nginx.duckdns.org
+sudo apt install -y certbot
 
-sudo certbot certonly --standalone \
-  -d example.com \
-  -d www.example.com
-
-sudo certbot certonly --webroot \
-  -w /var/www/html \
-  -d example.com
+# Create Certificate
+sudo certbot certonly -d abhradip-nginx.duckdns.org
 ```
