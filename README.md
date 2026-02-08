@@ -24,10 +24,18 @@ openssl req -x509 -nodes -days 365 \
 docker compose up --build -d
 ```
 
-## Amazon Linux Certbot
+## Ubuntu Certbot
 
 ```bash
 # Install certbot
-sudo dnf install certbot
-sudo certbot certonly
+# sudo apt install -y certbot python3-certbot-nginx
+# sudo certbot --nginx -d abhradippaul-nginx.duckdns.org
+
+sudo certbot certonly --standalone \
+  -d example.com \
+  -d www.example.com
+
+sudo certbot certonly --webroot \
+  -w /var/www/html \
+  -d example.com
 ```
