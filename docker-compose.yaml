@@ -51,6 +51,7 @@ services:
       - ./certs:/etc/nginx/certs:ro
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./html:/usr/share/nginx/html
+      - ./logs:/var/log/nginx
     networks:
       - nginx-network
 
@@ -91,6 +92,21 @@ services:
       - ./grafana/dashboards:/var/lib/grafana/dashboards
     depends_on:
       - prometheus
+    networks:
+      - nginx-network
+
+  fluentd:
+    build: ./fluentd
+    container_name: fluentd
+    ports:
+      - "24224:24224"
+    command: >
+      sh -c "fluentd -c /fluentd/etc/fluent.conf"
+    volumes:
+      - ./fluentd/fluent.conf:/fluentd/etc/fluent.conf
+      - ./logs:/var/log/nginx
+    depends_on:
+      - nginx
     networks:
       - nginx-network
 
