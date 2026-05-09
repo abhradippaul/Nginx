@@ -139,7 +139,9 @@
       "id": 2,
       "options": {
         "legend": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
@@ -151,10 +153,7 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PEB814BE3CA3B78C0"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "histogram_quantile(\n    0.99, sum(\n        rate(\n            nginx_http_request_duration_seconds_bucket\n            {\n                path=~\"$path\",\n                status_code=~\"$status\",\n                method=~\"$method\"\n            }[1m])) by (le)\n    )",
           "legendFormat": "P99",
@@ -162,10 +161,7 @@
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PEB814BE3CA3B78C0"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "histogram_quantile(\n    0.90, sum(\n        rate(\n            nginx_http_request_duration_seconds_bucket\n            {\n                path=~\"$path\",\n                status_code=~\"$status\",\n                method=~\"$method\"\n            }[1m])) by (le)\n    )",
           "hide": false,
@@ -174,10 +170,7 @@
           "refId": "B"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PEB814BE3CA3B78C0"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "histogram_quantile(\n    0.50, sum(\n        rate(\n            nginx_http_request_duration_seconds_bucket\n            {\n                path=~\"$path\",\n                status_code=~\"$status\",\n                method=~\"$method\"\n            }[1m])) by (le)\n    )",
           "hide": false,
@@ -254,7 +247,9 @@
       "id": 4,
       "options": {
         "legend": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
@@ -266,10 +261,7 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PEB814BE3CA3B78C0"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "round(\n    sum(\n        irate(\n            nginx_request_status_code_total\n            {\n                path=~\"$path\"\n            }[1m]\n            )\n        ) by (path), 0.001)",
           "legendFormat": "{{ path }}",
@@ -347,7 +339,9 @@
       "id": 6,
       "options": {
         "legend": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
@@ -359,10 +353,7 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PEB814BE3CA3B78C0"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "sum(rate(nginx_request_status_code_total{path=~\"$path\", status_code!~\"[4-5].*\"}[1m])) / sum(rate(nginx_request_status_code_total{path=~\"$path\"}[1m]))",
           "legendFormat": "{{ ingress }}",
@@ -386,10 +377,7 @@
           "text": "/api/health",
           "value": "/api/health"
         },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "r_9gjRp4z"
-        },
+        "datasource": "Prometheus",
         "definition": "label_values(nginx_http_request_duration_seconds_bucket, path)",
         "hide": 0,
         "includeAll": true,
