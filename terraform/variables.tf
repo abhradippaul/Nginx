@@ -24,3 +24,13 @@ variable "name" {
   description = "Name for the instance"
   type        = string
 }
+
+variable "vpc_id" {
+  description = "The ID of the VPC"
+  type        = string
+}
+
+variable "subnet_ids" {
+  description = "A list of subnet IDs"
+  type        = list(string)
+}

@@ -14,4 +14,6 @@ module "ec2_instance" {
   instance_type = var.instance_type
   key_name      = aws_key_pair.deployer.key_name
   name          = var.name
+  vpc_id        = var.vpc_id
+  subnet_id     = var.subnet_ids[0]
 }

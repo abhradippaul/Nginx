@@ -14,10 +14,13 @@ echo \
 
 # Install Docker Engine and Compose Plugin
 apt-get update -y
-apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin certbot git
 
 # Start and enable Docker
 systemctl enable --now docker
 
 # Add the default ubuntu user to the docker group
 usermod -aG docker ubuntu
+
+# Clone the repository
+cd ~ && git clone -b main https://github.com/abhradippaul/Nginx.git && chown -R ubuntu:ubuntu ~/Nginx

@@ -37,10 +37,13 @@ mkdir -p certs
 openssl req -x509 -nodes -days 365 \
   -newkey rsa:2048 \
   -keyout certs/selfsigned.key \
-  -out certs/selfsigned.crt
+  -out certs/selfsigned.crt \
+  -subj "/C=US/ST=State/L=City/O=Organization/CN=localhost" \
+  -sha256
 ```
 
 *(Note: The `nginx.conf` is configured to look for these certificates in `/etc/nginx/certs/`)*
+
 
 ### 2. Start the Stack
 Bring up all the services using Docker Compose:
@@ -87,6 +90,44 @@ docker exec -it nginx nginx -s reload
 ```bash
 curl -I -k https://localhost
 ```
+
+## 📊 Load Testing
+
+You can test the load balancing and performance of the stack using the following tools.
+
+### 1. Using Docker Compose (Dynamic Load)
+We have integrated a dynamic load test into `docker-compose.yaml`. It simulates a **sine-wave load profile** (concurrency goes up and down automatically) so you can see meaningful graphs in Grafana.
+
+To start the load test:
+```bash
+docker compose --profile tools up load-test
+```
+*   **Target:** `https://nginx/api` (Internal Docker network)
+*   **Behavior:** Concurrency oscillates between 1 and 30 users every 2 minutes.
+*   **Duration:** Runs for 10 minutes by default.
+
+### 2. Using Python Locally
+If you want to run a custom test from your host machine:
+
+**Prerequisites:**
+```bash
+pip install requests
+```
+
+**Run the test:**
+```bash
+python3 scripts/load_test.py
+```
+*   **Note:** You can set environment variables like `MAX_USERS=50` or `TARGET_URL=https://localhost/api` before running.
+
+### 2. Using Apache Benchmark (ab)
+For a quick and simple test, you can use `ab` (if installed):
+
+```bash
+# -n: total requests, -c: concurrent users, -k: keep-alive
+ab -n 1000 -c 10 -k https://localhost/api
+```
+*(Use `ab -n 1000 -c 10 -k -S https://localhost/api` if you need to ignore SSL warnings on some versions of ab)*
 
 ## 🔐 Using Let's Encrypt (Certbot)
 

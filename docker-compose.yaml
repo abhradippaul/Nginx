@@ -110,6 +110,24 @@ services:
     networks:
       - nginx-network
 
+  load-test:
+    image: python:3.11-slim
+    container_name: load-test
+    profiles: ["tools"]
+    depends_on:
+      - nginx
+    volumes:
+      - ./scripts:/scripts
+    environment:
+      - TARGET_URL=https://nginx/api
+      - MAX_USERS=30
+      - DURATION=600
+      - CYCLE=120
+    command: >
+      sh -c "pip install requests && python /scripts/load_test.py"
+    networks:
+      - nginx-network
+
 networks:
   nginx-network:
     driver: bridge

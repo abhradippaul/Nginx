@@ -19,6 +19,11 @@ variable "name" {
   type        = string
 }
 
+variable "vpc_id" {
+  description = "The VPC ID where resources will be created"
+  type        = string
+}
+
 variable "subnet_id" {
   description = "The VPC Subnet ID to launch in"
   type        = string

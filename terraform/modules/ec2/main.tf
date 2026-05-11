@@ -1,6 +1,7 @@
 resource "aws_security_group" "this" {
   name        = "${var.name}-sg"
   description = "Security group for Nginx and related services"
+  vpc_id      = var.vpc_id
 
   ingress {
     from_port   = 22
@@ -32,17 +33,17 @@ resource "aws_security_group" "this" {
   }
 }
 
-# resource "aws_instance" "this" {
-#   ami                    = var.ami
-#   instance_type          = var.instance_type
-#   key_name               = var.key_name
-#   subnet_id              = var.subnet_id
-#   vpc_security_group_ids = [aws_security_group.this.id]
+resource "aws_instance" "this" {
+  ami                    = var.ami
+  instance_type          = var.instance_type
+  key_name               = var.key_name
+  subnet_id              = var.subnet_id
+  vpc_security_group_ids = [aws_security_group.this.id]
 
-#   user_data = file("${path.module}/scripts/install_docker.sh")
+  user_data = file("${path.module}/scripts/install_docker.sh")
 
-#   tags = {
-#     Name        = var.name
-#     description = "EC2 instance running Nginx and Docker services"
-#   }
-# }
+  tags = {
+    Name        = var.name
+    description = "EC2 instance running Nginx and Docker services"
+  }
+}
