@@ -2,6 +2,8 @@
 
 This project is a comprehensive setup demonstrating Nginx as a reverse proxy and load balancer, alongside a robust monitoring and log aggregation stack using Prometheus, Grafana, and Fluentd. 
 
+<img width="1194" height="664" alt="diagram-export-5-12-2026-11_46_43-PM" src="https://github.com/user-attachments/assets/995a2d3e-6483-49f4-baa8-35ef39c7f59c" />
+
 ## 🚀 Features
 
 * **Reverse Proxy & Load Balancing:** Nginx distributes incoming traffic across three Node.js backend instances (`app1`, `app2`, `app3`).
