@@ -22,6 +22,54 @@ The architecture consists of the following Docker containers:
 * **grafana:** Analytics and interactive visualization web application.
 * **fluentd:** Data collector for unified logging layer.
 
+Here is a visual representation of the Nginx project, including the load testing script, the application nodes, and the entire observability stack (Prometheus, Grafana, and Fluentd).
+
+```mermaid
+flowchart TB
+    classDef proxy fill:#f96,stroke:#333,stroke-width:2px,color:#000
+    classDef app fill:#9cf,stroke:#333,stroke-width:2px,color:#000
+    classDef monitor fill:#bbf,stroke:#333,stroke-width:2px,color:#000
+    classDef db fill:#ff9,stroke:#333,stroke-width:2px,color:#000
+    classDef client fill:#dfd,stroke:#333,stroke-width:2px,color:#000
+
+    User(["User / Web Browser"]):::client
+    LoadTest(["Load Testing Script"]):::client
+
+    subgraph ProxyLayer ["Nginx & Load Balancing"]
+        Nginx{{"Nginx Reverse Proxy\n(Ports: 80, 443, 8080)"}}:::proxy
+    end
+
+    subgraph BackendLayer ["Backend Application Nodes"]
+        direction LR
+        App1["App Node 1\n(:3001)"]:::app
+        App2["App Node 2\n(:3002)"]:::app
+        App3["App Node 3\n(:3003)"]:::app
+    end
+
+    subgraph ObservabilityLayer ["Observability & Logging"]
+        direction TB
+        PromExporter["Nginx Prometheus Exporter\n(:9113)"]:::monitor
+        Prometheus[("Prometheus\n(:9090)")]:::db
+        Grafana["Grafana Dashboards\n(:3000)"]:::monitor
+        Fluentd["Fluentd (Log Collector)\n(:24224)"]:::monitor
+    end
+
+    %% Routing Flow
+    User -->|HTTP/HTTPS| Nginx
+    LoadTest -.->|Synthetic Traffic| Nginx
+    Nginx -->|Reverse Proxy| App1
+    Nginx -->|Reverse Proxy| App2
+    Nginx -->|Reverse Proxy| App3
+
+    %% Monitoring Flow
+    Nginx -.->|/status endpoint| PromExporter
+    Prometheus -->|Scrapes Metrics| PromExporter
+    Grafana -->|Queries Metrics| Prometheus
+
+    %% Logging Flow
+    Nginx -.->|Writes Logs| Fluentd
+```
+
 ## 📋 Prerequisites
 
 * Docker and Docker Compose installed on your system.

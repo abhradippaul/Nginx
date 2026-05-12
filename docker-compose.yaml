@@ -113,7 +113,7 @@ services:
   load-test:
     image: python:3.11-slim
     container_name: load-test
-    profiles: ["tools"]
+    # profiles: ["tools"]
     depends_on:
       - nginx
     volumes:
